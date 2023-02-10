@@ -2,7 +2,7 @@
 layout: post
 title:  "ブログの方針について"
 date:   2023-02-10 21:37:30 +0900
-categories: esay
+categories: essay
 ---
 
 この春休み、ブログ投稿を始めることにした。目的は２つある。
