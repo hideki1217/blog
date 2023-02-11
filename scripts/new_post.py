@@ -3,6 +3,7 @@ import datetime
 import json
 from dataclasses import dataclass
 import pytz
+import readline
 
 def is_int(s):
     try:
@@ -20,24 +21,26 @@ def try_int(s):
 cwd = Path(__file__).absolute()
 
 post_dir = cwd.parent.parent / "_posts"
-draft_dir = cwd.parent.parent / "_draft"
+draft_dir = cwd.parent.parent / "draft"
 
 today = datetime.datetime.now(tz=pytz.timezone("Asia/Tokyo"))
 
 @dataclass
 class DB:
     all_cat: list[str]
+    all_tag: list[str]
 
     @staticmethod
     def load(path):
         with open(path, "r") as f:
             db = json.load(f)
-        return DB(db["categories"])
+        return DB(db["categories"], db["tags"])
     
     def save(self, path):
         with open(path, "w") as f:
             json.dump({
-                "categories": self.all_cat
+                "categories": self.all_cat,
+                "tags": self.all_tag
             }, f)
         
 db_path = cwd.parent / "db.json"
@@ -48,20 +51,27 @@ def ask_parameter():
     print(f": {today}")
     short_title = input(f"short_title:> ")
     title = input(f"title:> ")
+
     print(": All Categories")
     for cat in db.all_cat:
         print(f"{cat}")
-    cats = set(input("cat:>").split())
-    return short_title, title, cats
+    cat = input("(only one) cat:>").split()[0]
 
-short_title, title, cats = ask_parameter()
+    print(": All Tags")
+    for tag in db.all_tag:
+        print(f"{tag}")
+    tags = set(input("(multiple) tag:>").split())
+    return short_title, title, cat, tags
 
-md = draft_dir / f"{today.year}-{today.month:2d}-{today.day:2d}-{short_title}.markdown"
+short_title, title, cat, tags = ask_parameter()
+
+md = draft_dir / f"{today.year:04}-{today.month:02}-{today.day:02}-{short_title}.markdown"
 content = f"""---
 layout: post
 title:  "{title}"
 date:   {today.strftime(r"%Y-%m-%d %H:%M:%S %z")}
-categories: {" ".join(cats)}
+categories: {cat}
+tags: [{", ".join(tags)}]
 ---
 """
 
@@ -69,5 +79,7 @@ if md.exists():
     print("***ERROR: MDFile is existed***")
 else:
     md.write_text(content, encoding="utf-8")
-    db.all_cat = list(set(db.all_cat) + cats)
+
+    db.all_cat = list(set(db.all_cat) | {cat})
+    db.all_tag = list(set(db.all_cat) | tags)
     db.save(db_path)
