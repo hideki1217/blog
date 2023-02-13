@@ -61,9 +61,11 @@ def ask_parameter():
     for tag in db.all_tag:
         print(f"{tag}")
     tags = set(input("(multiple) tag:>").split())
-    return short_title, title, cat, tags
 
-short_title, title, cat, tags = ask_parameter()
+    use_math = (input("are you use Tex ?:(y/n)>")[0] == 'y')
+    return short_title, title, cat, tags, use_math
+
+short_title, title, cat, tags, use_math = ask_parameter()
 
 md = draft_dir / f"{today.year:04}-{today.month:02}-{today.day:02}-{short_title}.markdown"
 content = f"""---
@@ -72,6 +74,7 @@ title:  "{title}"
 date:   {today.strftime(r"%Y-%m-%d %H:%M:%S %z")}
 categories: {cat}
 tags: [{", ".join(tags)}]
+use_math: {"true" if use_math else "false"}
 ---
 """
 

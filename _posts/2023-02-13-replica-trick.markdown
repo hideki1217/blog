@@ -4,6 +4,7 @@ title:  "統計力学のテクニック： スピングラスとレプリカ法"
 date:   2023-02-13 21:02:54 +0900
 categories: statistical-mechanics
 tags: [replica-trick, spin-glass]
+use_math: true
 ---
 
 ## 記事の内容
