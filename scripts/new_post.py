@@ -76,6 +76,19 @@ categories: {cat}
 tags: [{", ".join(tags)}]
 use_math: {"true" if use_math else "false"}
 ---
+
+## 記事の内容
+
+この記事は
+
+- HOGEHOGE
+
+を行い、読者は
+
+- HUGAHUGA
+
+を理解できます。
+
 """
 
 if md.exists():
@@ -84,5 +97,5 @@ else:
     md.write_text(content, encoding="utf-8")
 
     db.all_cat = list(set(db.all_cat) | {cat})
-    db.all_tag = list(set(db.all_cat) | tags)
+    db.all_tag = list(set(db.all_tag) | tags)
     db.save(db_path)

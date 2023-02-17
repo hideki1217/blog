@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "神経科学1: 脳の機能局在について"
+title:  "情報学徒のための神経科学1: 脳の機能局在について"
 date:   2023-02-15 22:35:42 +0900
 categories: neural-science
 tags: [localization]
