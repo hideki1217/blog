@@ -5,6 +5,7 @@ date:   2024-09-26 18:13:06 +0900
 categories: travel
 tags: [china]
 use_math: false
+banner: "/assets/images/_17e3582e-99f3-433a-be38-79ded9d75240.jpeg"
 ---
 
 ## 記事の内容
